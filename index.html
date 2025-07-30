@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Arthimatic Game</title>
+  <title>Quick Maths Game</title>
   <style>
     body {
       font-family: sans-serif;
@@ -61,6 +61,7 @@
 
   <script>
     let correctAnswer, timer, timeLeft, score = 0;
+    let displayOperator = '';
 
     function generateQuestion() {
       const operators = ['+', '-', '*', '/'];
@@ -74,16 +75,18 @@
           [a, b] = [b, a]; // avoid negative answers
         }
       } else if (op === '*') {
+        a = Math.floor(Math.random() * 12) + 1;
         b = Math.floor(Math.random() * 12) + 1;
-        a = b * (Math.floor(Math.random() * 12) + 1);
       } else if (op === '/') {
-        let result = Math.floor(Math.random() * 12) + 1;
         b = Math.floor(Math.random() * 12) + 1;
-        a = result * b;
+        correctAnswer = Math.floor(Math.random() * 12) + 1;
+        a = b * correctAnswer;
       }
 
-      document.getElementById('question').innerText = `${a} ${op} ${b}`;
-      correctAnswer = eval(`${a} ${op} ${b}`);
+      correctAnswer = correctAnswer ?? eval(`${a} ${op} ${b}`);
+      displayOperator = op === '*' ? '×' : op;
+
+      document.getElementById('question').innerText = `${a} ${displayOperator} ${b}`;
       resetTimer();
       focusInput();
     }
